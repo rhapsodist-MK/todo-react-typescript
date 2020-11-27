@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { TodoListItem } from './TodoListItem'
 
-const todos: Array<Todo> = [
+const initialTodos: Array<Todo> = [
 	{
 		text: 'walk the dog',
 		complete: true,
@@ -14,7 +14,25 @@ const todos: Array<Todo> = [
 ]
 
 const App: React.FC = () => {
-	return <TodoListItem todo={todos[0]} />
+	const [todos, setTodos] = useState(initialTodos)
+
+	const toggleTodo: ToggleTodo = (selectedTodo) => {
+		const newTodos = todos.map((todo) => {
+			if (todo === selectedTodo) {
+				return { ...todo, complete: !todo.complete }
+			}
+			return todo
+		})
+
+		setTodos(newTodos)
+	}
+
+	return (
+		<>
+			<TodoListItem todo={todos[0]} toggleTodo={toggleTodo} />
+			<TodoListItem todo={todos[1]} toggleTodo={toggleTodo} />
+		</>
+	)
 }
 
 export default App
